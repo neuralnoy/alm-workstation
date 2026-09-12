@@ -1,7 +1,8 @@
 use chrono::{Datelike, NaiveDate};
+use serde::{Deserialize, Serialize};
 
 /// Defines how days in an accrual period are counted for interest rate calculations.
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub enum DayCountConvention {
     /// 30/360: Assumes 30 days per month and 360 days per year.
     Thirty360,

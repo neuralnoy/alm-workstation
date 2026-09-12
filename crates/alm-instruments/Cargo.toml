@@ -4,3 +4,7 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+alm-cashflows = { version = "0.1.0", path = "../alm-cashflows" }
+alm-core = { version = "0.1.0", path = "../alm-core" }
+alm-time = { version = "0.1.0", path = "../alm-time" }
+serde = { version = "1.0.229", features = ["derive"] }

@@ -1,7 +1,8 @@
 use chrono::{Datelike, Duration, NaiveDate};
+use serde::{Deserialize, Serialize};
 
 /// Defines the unit of a period.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub enum PeriodUnit {
     Days,
     Weeks,
@@ -10,7 +11,7 @@ pub enum PeriodUnit {
 }
 
 /// Represents a period or tenor in financial calculations (e.g., 3 Months, 5 Years).
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub struct Period {
     pub length: i32,
     pub unit: PeriodUnit,

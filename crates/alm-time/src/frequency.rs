@@ -1,5 +1,7 @@
+use serde::{Deserialize, Serialize};
+
 /// Represents the frequency of events (e.g., payments, compounding).
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub enum Frequency {
     Annual,
     SemiAnnual,

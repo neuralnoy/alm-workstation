@@ -1,0 +1,66 @@
+.valuation-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.metric-card {
+  background-color: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.metric-card h3 {
+  margin: 0 0 8px 0;
+  font-size: 0.9rem;
+  color: #8b949e;
+  text-transform: uppercase;
+}
+
+.metric-value {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #58a6ff;
+}
+
+.cashflow-table-container {
+  background-color: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.cashflow-table-container h3 {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+.cashflow-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.cashflow-table th, .cashflow-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #30363d;
+}
+
+.cashflow-table th {
+  color: #8b949e;
+  font-weight: 500;
+  background-color: #0d1117;
+}
+
+.cashflow-table tbody tr:hover {
+  background-color: #21262d;
+}

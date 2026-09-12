@@ -1,8 +1,9 @@
 use chrono::{Datelike, Duration, NaiveDate};
 use crate::calendar::Calendar;
+use serde::{Deserialize, Serialize};
 
 /// Defines how days in an accrual period are adjusted when they fall on non-business days.
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub enum BusinessDayConvention {
     /// The timing of cash flows is not adjusted for non-business days.
     NoAdjustment,
