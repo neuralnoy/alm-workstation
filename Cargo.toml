@@ -1,0 +1,20 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/alm-core",
+    "crates/alm-math",
+    "crates/alm-time",
+    "crates/alm-curves",
+    "crates/alm-instruments",
+    "crates/alm-cashflows",
+    "crates/alm-models",
+    "crates/alm-simulation",
+    "crates/alm-scenarios",
+    "crates/alm-risk",
+    "crates/alm-liquidity",
+    "crates/alm-ftp",
+    "crates/alm-balance-sheet",
+    "crates/alm-market-data",
+    "crates/alm-storage",
+    "crates/alm-app/src-tauri"
+]
