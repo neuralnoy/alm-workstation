@@ -115,6 +115,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "alm-rst"
+version = "0.1.0"
+
+[[package]]
 name = "alm-scenarios"
 version = "0.1.0"
 

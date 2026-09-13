@@ -1,4 +1,4 @@
-use alm_core::{InterestRate, NaiveDate, Compounding};
+use alm_core::{Compounding, InterestRate, NaiveDate};
 use alm_time::day_count::DayCountConvention;
 use serde::{Deserialize, Serialize};
 
@@ -14,7 +14,11 @@ pub struct ZeroCurve {
 }
 
 impl ZeroCurve {
-    pub fn new(as_of_date: NaiveDate, day_count: DayCountConvention, mut points: Vec<(NaiveDate, InterestRate)>) -> Self {
+    pub fn new(
+        as_of_date: NaiveDate,
+        day_count: DayCountConvention,
+        mut points: Vec<(NaiveDate, InterestRate)>,
+    ) -> Self {
         points.sort_by(|a, b| a.0.cmp(&b.0));
         Self {
             as_of_date,
@@ -51,7 +55,7 @@ impl ZeroCurve {
                 return InterestRate::new(interpolated_val, r1.compounding);
             }
         }
-        
+
         self.points.last().unwrap().1
     }
 

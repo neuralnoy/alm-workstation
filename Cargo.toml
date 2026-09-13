@@ -16,5 +16,5 @@ members = [
     "crates/alm-balance-sheet",
     "crates/alm-market-data",
     "crates/alm-storage",
-    "crates/alm-app/src-tauri"
-]
+    "crates/alm-app/src-tauri",
+    "crates/alm-rst"]
