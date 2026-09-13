@@ -55,6 +55,7 @@ dependencies = [
 name = "alm-core"
 version = "0.1.0"
 dependencies = [
+ "alm-time",
  "chrono",
  "rust_decimal",
  "rust_decimal_macros",
