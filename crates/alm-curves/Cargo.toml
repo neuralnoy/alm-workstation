@@ -7,3 +7,4 @@ edition = "2024"
 alm-core = { version = "0.1.0", path = "../alm-core" }
 alm-time = { version = "0.1.0", path = "../alm-time" }
 serde = { version = "1.0.229", features = ["derive"] }
+chrono = "0.4"

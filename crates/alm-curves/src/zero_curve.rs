@@ -1,71 +1,74 @@
-use alm_core::{Compounding, InterestRate, NaiveDate};
+use crate::{CurveId, YieldTermStructure};
+use crate::interpolation::InterpolationMethod;
+use alm_core::InterestRate;
 use alm_time::day_count::DayCountConvention;
+use chrono::NaiveDate;
 use serde::{Deserialize, Serialize};
 
-/// A basic ZeroCurve that interpolates linearly on zero rates.
+/// A curve that interpolates zero rates.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ZeroCurve {
-    /// The base date for calculating distances.
+    pub id: CurveId,
     pub as_of_date: NaiveDate,
-    /// The day count convention used by this curve.
     pub day_count: DayCountConvention,
-    /// (Date, Zero Rate) points, assumed to be sorted by date.
-    pub points: Vec<(NaiveDate, InterestRate)>,
+    pub interpolation: InterpolationMethod,
+    /// Store continuous zero rates for interpolation
+    /// (Time in years, continuous zero rate)
+    pub points: Vec<(f64, f64)>,
 }
 
 impl ZeroCurve {
     pub fn new(
+        id: CurveId,
         as_of_date: NaiveDate,
         day_count: DayCountConvention,
-        mut points: Vec<(NaiveDate, InterestRate)>,
+        interpolation: InterpolationMethod,
+        mut inputs: Vec<(NaiveDate, InterestRate)>,
     ) -> Self {
-        points.sort_by(|a, b| a.0.cmp(&b.0));
+        inputs.sort_by(|a, b| a.0.cmp(&b.0));
+        let mut points = Vec::with_capacity(inputs.len());
+        for (date, rate) in inputs {
+            let t = day_count.year_fraction(as_of_date, date);
+            if t < 0.0 {
+                continue;
+            }
+            // Convert to continuous compounding for storage and interpolation
+            let df = rate.discount_factor(t);
+            let continuous_rate = if t > 0.0 { -df.ln() / t } else { rate.value };
+            points.push((t, continuous_rate));
+        }
         Self {
+            id,
             as_of_date,
             day_count,
+            interpolation,
             points,
         }
     }
+}
 
-    /// Interpolate the zero rate for a given date.
-    pub fn zero_rate(&self, target_date: NaiveDate) -> InterestRate {
-        if self.points.is_empty() {
-            return InterestRate::new(0.0, Compounding::Continuous);
-        }
-
-        if target_date <= self.points.first().unwrap().0 {
-            return self.points.first().unwrap().1;
-        }
-
-        if target_date >= self.points.last().unwrap().0 {
-            return self.points.last().unwrap().1;
-        }
-
-        // Linear interpolation
-        for i in 0..self.points.len() - 1 {
-            let (d1, r1) = self.points[i];
-            let (d2, r2) = self.points[i + 1];
-
-            if target_date >= d1 && target_date <= d2 {
-                let total_days = (d2 - d1).num_days() as f64;
-                let passed_days = (target_date - d1).num_days() as f64;
-                let fraction = passed_days / total_days;
-
-                let interpolated_val = r1.value + (r2.value - r1.value) * fraction;
-                return InterestRate::new(interpolated_val, r1.compounding);
-            }
-        }
-
-        self.points.last().unwrap().1
+impl YieldTermStructure for ZeroCurve {
+    fn curve_id(&self) -> &CurveId {
+        &self.id
     }
 
-    /// Get the discount factor for a given date.
-    pub fn discount_factor(&self, target_date: NaiveDate) -> f64 {
-        if target_date <= self.as_of_date {
+    fn reference_date(&self) -> NaiveDate {
+        self.as_of_date
+    }
+
+    fn day_count(&self) -> DayCountConvention {
+        self.day_count
+    }
+
+    fn discount_factor(&self, date: NaiveDate) -> f64 {
+        if date <= self.as_of_date {
             return 1.0;
         }
-        let rate = self.zero_rate(target_date);
-        let time = self.day_count.year_fraction(self.as_of_date, target_date);
-        rate.discount_factor(time)
+        let t = self.day_count.year_fraction(self.as_of_date, date);
+        let x_points: Vec<f64> = self.points.iter().map(|p| p.0).collect();
+        let y_points: Vec<f64> = self.points.iter().map(|p| p.1).collect();
+        
+        let rate_val = self.interpolation.interpolate(t, &x_points, &y_points);
+        (-rate_val * t).exp()
     }
 }
