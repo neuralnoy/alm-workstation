@@ -1,5 +1,5 @@
 use alm_cashflows::Cashflow;
-use alm_curves::ZeroCurve;
+use alm_curves::{ZeroCurve, YieldTermStructure};
 use alm_time::day_count::DayCountConvention;
 
 /// Calculates the Macaulay Duration of a series of cashflows given a discount curve.

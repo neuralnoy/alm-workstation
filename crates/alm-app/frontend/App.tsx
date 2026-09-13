@@ -15,6 +15,7 @@ const MENU_ITEMS = [
 ];
 
 import Valuation from "./pages/Valuation";
+import Market from "./pages/Market";
 
 function App() {
   const [activeMenu, setActiveMenu] = useState("Dashboard");
@@ -39,6 +40,8 @@ function App() {
         <h1>{activeMenu}</h1>
         {activeMenu === "Valuation" ? (
           <Valuation />
+        ) : activeMenu === "Market" ? (
+          <Market />
         ) : (
           <div className="dashboard-card">
             <p>This is the {activeMenu} view. Select an item from the sidebar to navigate the ALM modules.</p>
