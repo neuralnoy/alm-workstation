@@ -5,7 +5,7 @@ use alm_curves::{
     interpolation::InterpolationMethod,
     CurveId, YieldTermStructure, ZeroCurve,
 };
-use alm_instruments::fixed_income::FixedRateBond;
+use alm_instruments::{fixed_income::FixedRateBond, mortgages::Mortgage};
 use alm_risk::{calculate_macaulay_duration, calculate_pv};
 use alm_time::day_count::DayCountConvention;
 use alm_time::frequency::Frequency;
@@ -128,7 +128,8 @@ pub struct BondMetricsResponse {
 }
 
 #[tauri::command]
-fn calculate_bond_metrics(
+fn calculate_instrument_metrics(
+    instrument_type: &str,
     principal: f64,
     coupon_rate: f64,
     start_date: &str,
@@ -139,17 +140,25 @@ fn calculate_bond_metrics(
     let maturity_date =
         NaiveDate::parse_from_str(maturity_date, "%Y-%m-%d").map_err(|e| e.to_string())?;
 
-    // Create the bond
-    let bond = FixedRateBond::new(
-        principal,
-        coupon_rate,
-        start_date,
-        maturity_date,
-        Frequency::SemiAnnual,
-    );
-
-    // Generate Cashflows
-    let cashflows = bond.generate_cashflows();
+    let cashflows = if instrument_type == "Mortgage" {
+        let mortgage = Mortgage::new(
+            principal,
+            coupon_rate,
+            start_date,
+            maturity_date,
+            Frequency::Monthly,
+        );
+        mortgage.generate_cashflows()
+    } else {
+        let bond = FixedRateBond::new(
+            principal,
+            coupon_rate,
+            start_date,
+            maturity_date,
+            Frequency::SemiAnnual,
+        );
+        bond.generate_cashflows()
+    };
 
     // Create a flat zero curve for discounting
     let as_of_date = start_date;
@@ -186,7 +195,7 @@ fn calculate_bond_metrics(
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
-        .invoke_handler(tauri::generate_handler![calculate_bond_metrics, get_curve_data])
+        .invoke_handler(tauri::generate_handler![calculate_instrument_metrics, get_curve_data])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

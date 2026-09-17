@@ -8,3 +8,5 @@ pub mod business_plan;
 pub mod runoff;
 pub mod static_balance_sheet;
 pub mod dynamic_balance_sheet;
+
+pub use portfolio::Portfolio;
