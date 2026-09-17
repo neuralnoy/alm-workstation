@@ -1,10 +1,10 @@
+use alm_cashflows::{Cashflow, CashflowGenerator, CashflowSchedule};
 use alm_core::NaiveDate;
 use alm_time::business_day::BusinessDayConvention;
 use alm_time::calendar::WeekendCalendar;
 use alm_time::frequency::Frequency;
 use alm_time::period::{Period, PeriodUnit};
 use alm_time::schedule::ScheduleBuilder;
-use alm_cashflows::Cashflow;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -32,18 +32,19 @@ impl FixedRateBond {
             frequency,
         }
     }
+}
 
-    /// Generates a deterministic list of cashflows based on the bond parameters.
-    pub fn generate_cashflows(&self) -> Vec<Cashflow> {
+impl CashflowGenerator for FixedRateBond {
+    fn generate_cashflows(&self) -> CashflowSchedule {
         let mut cashflows = Vec::new();
 
         // Edge case: Bullet/Zero coupon
         if self.frequency == Frequency::Zero {
-            cashflows.push(Cashflow::new(
+            cashflows.push(Cashflow::total(
                 self.maturity_date,
                 self.principal + (self.principal * self.annual_coupon_rate),
             ));
-            return cashflows;
+            return CashflowSchedule::new(cashflows);
         }
 
         // Determine tenor from frequency
@@ -64,7 +65,7 @@ impl FixedRateBond {
         
         // No cashflows if we just have the start date
         if dates.len() < 2 {
-            return cashflows;
+            return CashflowSchedule::new(cashflows);
         }
 
         // Standard coupon amount per period
@@ -77,12 +78,13 @@ impl FixedRateBond {
             
             // Final payment includes principal
             if i == dates.len() - 1 {
-                cashflows.push(Cashflow::new(payment_date, self.principal + coupon_amount));
+                cashflows.push(Cashflow::total(payment_date, self.principal + coupon_amount));
             } else {
-                cashflows.push(Cashflow::new(payment_date, coupon_amount));
+                cashflows.push(Cashflow::interest(payment_date, coupon_amount));
             }
         }
 
-        cashflows
+        CashflowSchedule::new(cashflows)
     }
 }
+

@@ -1,20 +1,19 @@
 use alm_core::{Compounding, Currency, InterestRate, Money, Percentage};
 use alm_time::frequency::Frequency;
-use rust_decimal_macros::dec;
 
 fn main() {
     println!("--- ALM Core Foundation Examples ---\n");
 
     // 1. Working with Money and Currencies
-    let principal = Money::new(dec!(10000.00), Currency::USD);
-    let fee = Money::new(dec!(250.50), Currency::USD);
+    let principal = Money::new(10000.00, Currency::USD);
+    let fee = Money::new(250.50, Currency::USD);
 
     // You can safely add money of the same currency
     let total_cost = principal.try_add(fee).expect("Currencies match");
     println!("Total Cost: {}", total_cost);
 
     // If you try to subtract a different currency, it returns an error
-    let foreign_fee = Money::new(dec!(15.00), Currency::EUR);
+    let foreign_fee = Money::new(15.00, Currency::EUR);
     match total_cost.try_sub(foreign_fee) {
         Ok(new_total) => println!("New Total: {}", new_total),
         Err(e) => println!("Error prevented invalid arithmetic: {}", e),
@@ -43,7 +42,7 @@ fn main() {
     println!("Compound factor over 10 years: {:.20}", compound);
 
     // Applying the factor to a decimal amount
-    let future_value = principal.amount * rust_decimal::Decimal::from_f64_retain(compound).unwrap();
+    let future_value = principal.amount * compound;
     let future_money = Money::new(future_value, Currency::USD);
     println!(
         "Future Value of {} after 10 years: {}",

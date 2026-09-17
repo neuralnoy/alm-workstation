@@ -1,31 +1,30 @@
 use super::currency::Currency;
 use super::errors::AlmError;
 use super::result::Result;
-use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use std::ops::{Add, Sub};
 use std::fmt;
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
 pub struct Money {
-    pub amount: Decimal,
+    pub amount: f64,
     pub currency: Currency,
 }
 
 impl Money {
-    pub fn new(amount: Decimal, currency: Currency) -> Self {
+    pub fn new(amount: f64, currency: Currency) -> Self {
         Self { amount, currency }
     }
 
     pub fn zero(currency: Currency) -> Self {
         Self {
-            amount: Decimal::ZERO,
+            amount: 0.0,
             currency,
         }
     }
 
     pub fn is_zero(&self) -> bool {
-        self.amount.is_zero()
+        self.amount == 0.0
     }
 
     /// Safely adds another Money object, returning an error if currencies don't match.
@@ -70,6 +69,7 @@ impl Sub for Money {
 
 impl fmt::Display for Money {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "{} {}", self.amount.round_dp(2), self.currency)
+        write!(f, "{:.2} {}", self.amount, self.currency)
     }
 }
+

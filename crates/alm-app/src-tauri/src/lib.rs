@@ -1,4 +1,4 @@
-use alm_cashflows::Cashflow;
+use alm_cashflows::{Cashflow, CashflowGenerator};
 use alm_core::{Compounding, InterestRate, NaiveDate};
 use alm_curves::{
     bootstrap::{BootstrapInstrument, Bootstrapper},
@@ -175,7 +175,7 @@ fn calculate_bond_metrics(
     let mod_dur = mac_dur;
 
     Ok(BondMetricsResponse {
-        cashflows,
+        cashflows: cashflows.cashflows.clone(),
         present_value: pv,
         macaulay_duration: mac_dur,
         modified_duration: mod_dur,
