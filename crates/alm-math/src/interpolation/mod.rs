@@ -11,6 +11,7 @@ pub enum InterpolationMethod {
     Step,
     FlatForward,
     MonotoneConvex,
+    CubicSpline,
 }
 
 impl InterpolationMethod {
@@ -45,6 +46,7 @@ impl InterpolationMethod {
             InterpolationMethod::Step => y1,
             InterpolationMethod::FlatForward => y1,
             InterpolationMethod::MonotoneConvex => monotone::interpolate_monotone_convex(x, x_points, y_points, idx),
+            InterpolationMethod::CubicSpline => cubic_spline::interpolate_cubic_spline(x, x_points, y_points, idx),
         }
     }
 }
