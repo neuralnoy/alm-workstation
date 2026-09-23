@@ -39,6 +39,25 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "683d7910e743518b0e34f1186f92494becacb047c7b6bf616c96772180fef923"
 
 [[package]]
+name = "alm-app"
+version = "0.1.0"
+dependencies = [
+ "alm-cashflows",
+ "alm-core",
+ "alm-curves",
+ "alm-instruments",
+ "alm-math",
+ "alm-risk",
+ "alm-time",
+ "chrono",
+ "serde",
+ "serde_json",
+ "tauri",
+ "tauri-build",
+ "tauri-plugin-opener",
+]
+
+[[package]]
 name = "alm-balance-sheet"
 version = "0.1.0"
 dependencies = [
@@ -4207,25 +4226,6 @@ dependencies = [
  "webview2-com",
  "window-vibrancy",
  "windows",
-]
-
-[[package]]
-name = "tauri-app"
-version = "0.1.0"
-dependencies = [
- "alm-cashflows",
- "alm-core",
- "alm-curves",
- "alm-instruments",
- "alm-math",
- "alm-risk",
- "alm-time",
- "chrono",
- "serde",
- "serde_json",
- "tauri",
- "tauri-build",
- "tauri-plugin-opener",
 ]
 
 [[package]]

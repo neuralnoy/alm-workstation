@@ -16,49 +16,109 @@ body {
 
 #root {
   display: flex;
+  flex-direction: column;
   height: 100vh;
   overflow: hidden;
 }
 
-.sidebar {
-  width: 250px;
-  background-color: var(--panel-bg);
-  border-right: 1px solid var(--border);
+.top-nav {
+  height: 60px;
+  background-color: rgba(22, 27, 34, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
   display: flex;
-  flex-direction: column;
-  padding-top: 20px;
+  align-items: center;
+  padding: 0 24px;
+  gap: 32px;
+  z-index: 10;
 }
 
-.sidebar h2 {
-  font-size: 1.2rem;
-  padding: 0 20px;
-  margin-bottom: 20px;
-  color: var(--text-main);
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   font-weight: 600;
+  font-size: 1.1rem;
+  color: #fff;
 }
 
-.sidebar-nav {
+.brand img {
+  height: 28px;
+}
+
+.top-nav-links {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  gap: 8px;
 }
 
-.nav-item {
-  padding: 10px 20px;
+.top-nav-item {
+  padding: 8px 16px;
   color: var(--text-muted);
   cursor: pointer;
+  border-radius: 6px;
   transition: all 0.2s ease;
   font-size: 0.95rem;
+  font-weight: 500;
 }
 
-.nav-item:hover, .nav-item.active {
+.top-nav-item:hover, .top-nav-item.active {
   background-color: rgba(88, 166, 255, 0.1);
+  color: var(--accent);
+}
+
+.app-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  background: radial-gradient(circle at top center, rgba(88, 166, 255, 0.03) 0%, transparent 60%);
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: rgba(22, 27, 34, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  min-width: 180px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.5);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  z-index: 100;
+  top: 100%;
+  left: 0;
+  padding: 8px 0;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown-item {
+  color: var(--text-main);
+  padding: 10px 16px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+  font-weight: 500;
+}
+
+.dropdown-item:hover, .dropdown-item.active {
+  background-color: rgba(88, 166, 255, 0.15);
   color: var(--accent);
 }
 
 .main-content {
   flex: 1;
-  padding: 30px;
+  padding: 32px;
   overflow-y: auto;
 }
 
