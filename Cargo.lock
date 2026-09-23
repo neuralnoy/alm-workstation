@@ -70,6 +70,7 @@ name = "alm-curves"
 version = "0.1.0"
 dependencies = [
  "alm-core",
+ "alm-math",
  "alm-time",
  "chrono",
  "serde",
@@ -100,6 +101,9 @@ version = "0.1.0"
 [[package]]
 name = "alm-math"
 version = "0.1.0"
+dependencies = [
+ "serde",
+]
 
 [[package]]
 name = "alm-models"
@@ -4213,6 +4217,7 @@ dependencies = [
  "alm-core",
  "alm-curves",
  "alm-instruments",
+ "alm-math",
  "alm-risk",
  "alm-time",
  "chrono",

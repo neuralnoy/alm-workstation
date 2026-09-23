@@ -6,5 +6,6 @@ edition = "2024"
 [dependencies]
 alm-core = { version = "0.1.0", path = "../alm-core" }
 alm-time = { version = "0.1.0", path = "../alm-time" }
+alm-math = { version = "0.1.0", path = "../alm-math" }
 serde = { version = "1.0.229", features = ["derive"] }
 chrono = "0.4"

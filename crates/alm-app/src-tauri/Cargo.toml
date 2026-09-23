@@ -26,6 +26,7 @@ alm-core = { version = "0.1.0", path = "../../alm-core" }
 alm-time = { version = "0.1.0", path = "../../alm-time" }
 alm-cashflows = { version = "0.1.0", path = "../../alm-cashflows" }
 alm-curves = { version = "0.1.0", path = "../../alm-curves" }
+alm-math = { version = "0.1.0", path = "../../alm-math" }
 alm-instruments = { version = "0.1.0", path = "../../alm-instruments" }
 alm-risk = { version = "0.1.0", path = "../../alm-risk" }
 chrono = "0.4"

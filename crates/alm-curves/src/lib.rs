@@ -2,7 +2,6 @@ pub mod bootstrap;
 pub mod curve_set;
 pub mod discount_curve;
 pub mod forward_curve;
-pub mod interpolation;
 pub mod ois_curve;
 pub mod shock;
 pub mod swap_curve;

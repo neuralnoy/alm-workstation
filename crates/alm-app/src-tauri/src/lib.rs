@@ -2,9 +2,9 @@ use alm_cashflows::{Cashflow, CashflowGenerator};
 use alm_core::{Compounding, InterestRate, NaiveDate};
 use alm_curves::{
     bootstrap::{BootstrapInstrument, Bootstrapper},
-    interpolation::InterpolationMethod,
     CurveId, YieldTermStructure, ZeroCurve,
 };
+use alm_math::interpolation::InterpolationMethod;
 use alm_instruments::{fixed_income::FixedRateBond, mortgages::Mortgage};
 use alm_risk::{calculate_macaulay_duration, calculate_pv};
 use alm_time::day_count::DayCountConvention;

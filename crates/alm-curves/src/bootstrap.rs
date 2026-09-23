@@ -1,5 +1,5 @@
 use crate::{CurveId, ZeroCurve};
-use crate::interpolation::InterpolationMethod;
+use alm_math::interpolation::InterpolationMethod;
 use alm_core::InterestRate;
 use alm_time::day_count::DayCountConvention;
 use chrono::NaiveDate;

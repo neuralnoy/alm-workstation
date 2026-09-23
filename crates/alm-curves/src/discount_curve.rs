@@ -1,5 +1,5 @@
 use crate::{CurveId, YieldTermStructure};
-use crate::interpolation::InterpolationMethod;
+use alm_math::interpolation::InterpolationMethod;
 use alm_time::day_count::DayCountConvention;
 use chrono::NaiveDate;
 use serde::{Deserialize, Serialize};

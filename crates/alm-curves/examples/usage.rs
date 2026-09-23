@@ -1,10 +1,10 @@
 use alm_curves::{
     bootstrap::{BootstrapInstrument, Bootstrapper},
     curve_set::CurveSet,
-    interpolation::InterpolationMethod,
     shock::{CurveShift, CurveShock},
     CurveId, YieldCurve, YieldTermStructure,
 };
+use alm_math::interpolation::InterpolationMethod;
 use alm_core::{Compounding, InterestRate};
 use alm_time::{day_count::DayCountConvention, frequency::Frequency};
 use chrono::NaiveDate;
