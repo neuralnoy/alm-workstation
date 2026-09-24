@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Sun, Moon } from "lucide-react";
 import "./index.css";
 
 import Valuation from "./pages/Valuation";
@@ -11,16 +12,26 @@ const WORKSPACE_MODULES = [
   "Risk",
   "Liquidity",
   "FTP",
-  "Reports"
+  "Reports",
+  "Reverse Stress Testing"
 ];
 
 function App() {
   const [activeNav, setActiveNav] = useState("Dashboard");
+  const [isLightMode, setIsLightMode] = useState(false);
+
+  useEffect(() => {
+    if (isLightMode) {
+      document.body.classList.add('light-theme');
+    } else {
+      document.body.classList.remove('light-theme');
+    }
+  }, [isLightMode]);
 
   return (
     <>
       <div className="top-nav">
-        <div className="brand">
+        <div className="brand" onClick={() => setActiveNav("Dashboard")}>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="28" height="28">
             <defs>
               <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -73,7 +84,21 @@ function App() {
           ) : activeNav === "Settings" ? (
             <div className="glass-card fade-in">
               <h3>Settings</h3>
-              <p className="text-muted mt-4">Application settings and configuration.</p>
+              <div className="mt-4">
+                <h4>Appearance</h4>
+                <div 
+                  className="status-badge" 
+                  style={{ display: 'inline-flex', cursor: 'pointer', marginTop: '8px', padding: '8px 16px', gap: '10px' }}
+                  onClick={() => setIsLightMode(!isLightMode)}
+                >
+                  {isLightMode ? (
+                    <><Moon size={16} /> <span style={{fontWeight: 500}}>Switch to Dark Mode</span></>
+                  ) : (
+                    <><Sun size={16} /> <span style={{fontWeight: 500}}>Switch to Light Mode</span></>
+                  )}
+                </div>
+              </div>
+              <p className="text-muted mt-4">Other application settings and configuration will go here.</p>
             </div>
           ) : (
             <>
